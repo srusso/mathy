@@ -2,6 +2,7 @@ package net.sr89.mathy.obj;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class MutableSquareMatrix {
     // min and max values for each element of the matrix
@@ -9,7 +10,7 @@ public class MutableSquareMatrix {
     private static final int MAX = 5;
 
     public final int[][] matrix;
-    private final int size;
+    public final int size;
 
     // current row and column, used by toNext() and hasNext()
     public int row;
@@ -41,6 +42,23 @@ public class MutableSquareMatrix {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 matrix[i][j] = value;
+            }
+        }
+    }
+
+    public void generateAll(int row, int column, Consumer<MutableSquareMatrix> print) {
+        if (row == size) {
+            print.accept(this);
+            return;
+        }
+
+        for (int v = MIN ; v <= MAX; v++) {
+            matrix[row][column] = v;
+
+            if (column < size - 1) {
+                generateAll(row, column + 1, print);
+            } else {
+                generateAll(row + 1, 0, print);
             }
         }
     }

@@ -2,8 +2,22 @@ package net.sr89.mathy.comp;
 
 import net.sr89.mathy.obj.MutableSquareMatrix;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class CommutativeMatrices {
     public static void main() {
+        var i = new MutableSquareMatrix(2);
+
+//        i.generateAll(0, 0, CommutativeMatrices::printMatrix);
+
+        AtomicInteger count = new AtomicInteger();
+
+        i.generateAll(0, 0, m -> count.incrementAndGet());
+
+        System.out.println("Count: " + count.get());
+    }
+
+    public static void main2() {
         var i = new MutableSquareMatrix(2);
         var j = new MutableSquareMatrix(2);
         var ij = new MutableSquareMatrix(2);
@@ -38,5 +52,15 @@ public class CommutativeMatrices {
         System.out.println("Total pairs: " + (commutativePairs + nonCommutativePairs));
         System.out.println("Commutative pairs: " + commutativePairs);
         System.out.println("Non commutative pairs: " + nonCommutativePairs);
+    }
+
+    private static void printMatrix(MutableSquareMatrix matrix) {
+        for (int i = 0; i < matrix.size; i++) {
+            for (int j = 0; j < matrix.size; j++) {
+                System.out.print(matrix.matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("-----");
     }
 }
