@@ -46,9 +46,9 @@ public class MutableSquareMatrix {
         }
     }
 
-    public void generateAll(int row, int column, Consumer<MutableSquareMatrix> print) {
+    public void generateAllRecursively(int row, int column, Consumer<MutableSquareMatrix> consumer) {
         if (row == size) {
-            print.accept(this);
+            consumer.accept(this);
             return;
         }
 
@@ -56,9 +56,9 @@ public class MutableSquareMatrix {
             matrix[row][column] = v;
 
             if (column < size - 1) {
-                generateAll(row, column + 1, print);
+                generateAllRecursively(row, column + 1, consumer);
             } else {
-                generateAll(row + 1, 0, print);
+                generateAllRecursively(row + 1, 0, consumer);
             }
         }
     }
@@ -67,6 +67,16 @@ public class MutableSquareMatrix {
         row = 0;
         column = -1;
         setAll(MIN);
+    }
+
+    public MutableSquareMatrix copy() {
+        var copy = new MutableSquareMatrix(size);
+
+        for (int i = 0; i < size; i++) {
+            System.arraycopy(matrix[i], 0, copy.matrix[i], 0, size);
+        }
+
+        return copy;
     }
 
     public void toNext() {

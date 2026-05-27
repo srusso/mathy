@@ -2,19 +2,18 @@ package net.sr89.mathy.comp;
 
 import net.sr89.mathy.obj.MutableSquareMatrix;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommutativeMatrices {
     public static void main() {
         var i = new MutableSquareMatrix(2);
 
-//        i.generateAll(0, 0, CommutativeMatrices::printMatrix);
+        List<MutableSquareMatrix> matrices = new ArrayList<>();
 
-        AtomicInteger count = new AtomicInteger();
+        i.generateAllRecursively(0, 0, m -> matrices.add(m.copy()));
 
-        i.generateAll(0, 0, m -> count.incrementAndGet());
-
-        System.out.println("Count: " + count.get());
+        System.out.println("Count: " + matrices.size());
     }
 
     public static void main2() {
