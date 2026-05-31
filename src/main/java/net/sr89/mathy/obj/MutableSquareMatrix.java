@@ -46,6 +46,14 @@ public class MutableSquareMatrix {
         }
     }
 
+    // does not work yet
+    public void generateAllIteratively(Consumer<MutableSquareMatrix> consumer) {
+        while(hasNext()) {
+            toNext();
+            consumer.accept(this);
+        }
+    }
+
     public void generateAllRecursively(int row, int column, Consumer<MutableSquareMatrix> consumer) {
         if (row == size) {
             consumer.accept(this);
@@ -79,6 +87,8 @@ public class MutableSquareMatrix {
         return copy;
     }
 
+    int mostSignificantDigitRow = 0;
+    int mostSignificantDigitColumn = 0;
     public void toNext() {
         if (column == -1) {
             column = 0;
@@ -95,7 +105,10 @@ public class MutableSquareMatrix {
     }
 
     public boolean hasNext() {
-        return row < size - 1 || column < size - 1;
+        final var last = row == size - 1
+                && column == size - 1
+                && matrix[row][column] == MAX;
+        return !last;
     }
 
     @Override
