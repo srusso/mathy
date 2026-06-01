@@ -75,16 +75,6 @@ public class MutableSquareMatrix {
         }
     }
 
-    public MutableSquareMatrix copy() {
-        var copy = new MutableSquareMatrix(size);
-
-        for (int i = 0; i < size; i++) {
-            System.arraycopy(matrix[i], 0, copy.matrix[i], 0, size);
-        }
-
-        return copy;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
