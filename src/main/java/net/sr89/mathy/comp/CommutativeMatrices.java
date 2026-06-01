@@ -2,6 +2,7 @@ package net.sr89.mathy.comp;
 
 import net.sr89.mathy.obj.MutableSquareMatrix;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ public class CommutativeMatrices {
         final var combinations = matrixCount2x2 * matrixCount2x2;
         final List<MutableSquareMatrix> matrices = new ArrayList<>(matrixCount2x2);
 
-        new MutableSquareMatrix(2).generateAllRecursively(0, 0, mat -> matrices.add(mat.copy()));
+        var t = System.nanoTime();
+        new MutableSquareMatrix(2).generateAllIteratively(mat -> matrices.add(mat.copy()));
+        System.out.println("Total time: " + Duration.ofNanos((System.nanoTime() - t)).toMillis() + "ms");
 
         final var ab = new MutableSquareMatrix(2);
         final var ba = new MutableSquareMatrix(2);

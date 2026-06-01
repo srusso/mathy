@@ -19,8 +19,8 @@ public class MutableSquareMatrix {
     public MutableSquareMatrix(int size) {
         this.matrix = new int[size][size];
         this.size = size;
-        this.row = 0;
-        this.column = -1;
+        this.row = size - 1;
+        this.column = size - 1;
         setAll(MIN);
     }
 
@@ -46,11 +46,10 @@ public class MutableSquareMatrix {
         }
     }
 
-    // does not work yet
     public void generateAllIteratively(Consumer<MutableSquareMatrix> consumer) {
-        while(hasNext()) {
-            toNext();
-            consumer.accept(this);
+        consumer.accept(this);
+        while(canKeepCounting()) {
+            consumeNext(consumer);
         }
     }
 
@@ -87,26 +86,29 @@ public class MutableSquareMatrix {
         return copy;
     }
 
-    int mostSignificantDigitRow = 0;
-    int mostSignificantDigitColumn = 0;
-    public void toNext() {
-        if (column == -1) {
-            column = 0;
-        } else if (matrix[row][column] < MAX) {
-            matrix[row][column]++;
-        } else if (column < size - 1) {
-            column++;
-        } else if (row < size - 1) {
-            row++;
-            column = 0;
+    private void consumeNext(Consumer<MutableSquareMatrix> consumer) {
+        if (matrix[row][column] == MAX) {
+            matrix[row][column] = MIN;
+            stepBack();
         } else {
-            throw new IllegalStateException();
+            matrix[row][column]++;
+            consumer.accept(this);
+            row = size - 1;
+            column = size - 1;
         }
     }
 
-    public boolean hasNext() {
-        final var last = row == size - 1
-                && column == size - 1
+    private void stepBack() {
+        column--;
+        if (column < 0) {
+            column = size - 1;
+            row--;
+        }
+    }
+
+    private boolean canKeepCounting() {
+        final var last = row == 0
+                && column == 0
                 && matrix[row][column] == MAX;
         return !last;
     }
