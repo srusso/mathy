@@ -17,7 +17,7 @@ public class CommutativeMatrices {
         final List<MutableSquareMatrix> matrices = new ArrayList<>(matrixCount2x2);
 
         var t = System.nanoTime();
-        new MutableSquareMatrix(2).generateAllIteratively(mat -> matrices.add(mat.copy()));
+        new MutableSquareMatrix(2).generateAll(mat -> matrices.add(mat.copy()));
         System.out.println("Total time: " + Duration.ofNanos((System.nanoTime() - t)).toMillis() + "ms");
 
         final var ab = new MutableSquareMatrix(2);
@@ -53,28 +53,5 @@ public class CommutativeMatrices {
 
     private static String cutToTwoDecimalDigits(double v) {
         return String.format("%.2f", v);
-    }
-
-    public static void main3() {
-        var i = new MutableSquareMatrix(2);
-
-        List<MutableSquareMatrix> matrices = new ArrayList<>();
-        List<MutableSquareMatrix> matrices2 = new ArrayList<>();
-
-        i.generateAllRecursively(0, 0, m -> matrices.add(m.copy()));
-        i.generateAllIteratively(m -> matrices2.add(m.copy()));
-
-        System.out.println("Count (recursive): " + matrices.size());
-        System.out.println("Count (iterative): " + matrices2.size());
-    }
-
-    private static void printMatrix(MutableSquareMatrix matrix) {
-        for (int i = 0; i < matrix.size; i++) {
-            for (int j = 0; j < matrix.size; j++) {
-                System.out.print(matrix.matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("-----");
     }
 }

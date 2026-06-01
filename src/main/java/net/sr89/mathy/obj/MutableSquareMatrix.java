@@ -38,7 +38,7 @@ public class MutableSquareMatrix {
     /**
      * Same logic as {@link net.sr89.mathy.comp.Counting}
      */
-    public void generateAllIteratively(Consumer<MutableSquareMatrix> consumer) {
+    public void generateAll(Consumer<MutableSquareMatrix> consumer) {
         row = size - 1;
         column = size - 1;
         setAll(MIN);
@@ -71,23 +71,6 @@ public class MutableSquareMatrix {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 matrix[i][j] = value;
-            }
-        }
-    }
-
-    public void generateAllRecursively(int row, int column, Consumer<MutableSquareMatrix> consumer) {
-        if (row == size) {
-            consumer.accept(this);
-            return;
-        }
-
-        for (int v = MIN; v <= MAX; v++) {
-            matrix[row][column] = v;
-
-            if (column < size - 1) {
-                generateAllRecursively(row, column + 1, consumer);
-            } else {
-                generateAllRecursively(row + 1, 0, consumer);
             }
         }
     }
