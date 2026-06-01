@@ -19,9 +19,6 @@ public class MutableSquareMatrix {
     public MutableSquareMatrix(int size) {
         this.matrix = new int[size][size];
         this.size = size;
-        this.row = size - 1;
-        this.column = size - 1;
-        setAll(MIN);
     }
 
     public void mult(MutableSquareMatrix other, MutableSquareMatrix result) {
@@ -38,63 +35,27 @@ public class MutableSquareMatrix {
         }
     }
 
-    private void setAll(int value) {
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                matrix[i][j] = value;
-            }
-        }
-    }
-
+    /**
+     * Same logic as {@link net.sr89.mathy.comp.Counting}
+     */
     public void generateAllIteratively(Consumer<MutableSquareMatrix> consumer) {
-        consumer.accept(this);
-        while(canKeepCounting()) {
-            consumeNext(consumer);
-        }
-    }
-
-    public void generateAllRecursively(int row, int column, Consumer<MutableSquareMatrix> consumer) {
-        if (row == size) {
-            consumer.accept(this);
-            return;
-        }
-
-        for (int v = MIN ; v <= MAX; v++) {
-            matrix[row][column] = v;
-
-            if (column < size - 1) {
-                generateAllRecursively(row, column + 1, consumer);
-            } else {
-                generateAllRecursively(row + 1, 0, consumer);
-            }
-        }
-    }
-
-    public void toFirst() {
-        row = 0;
-        column = -1;
+        row = size - 1;
+        column = size - 1;
         setAll(MIN);
-    }
 
-    public MutableSquareMatrix copy() {
-        var copy = new MutableSquareMatrix(size);
+        consumer.accept(this);
 
-        for (int i = 0; i < size; i++) {
-            System.arraycopy(matrix[i], 0, copy.matrix[i], 0, size);
-        }
-
-        return copy;
-    }
-
-    private void consumeNext(Consumer<MutableSquareMatrix> consumer) {
-        if (matrix[row][column] == MAX) {
-            matrix[row][column] = MIN;
-            stepBack();
-        } else {
-            matrix[row][column]++;
-            consumer.accept(this);
-            row = size - 1;
-            column = size - 1;
+        while (!(row == 0 && column == 0
+                && matrix[row][column] == MAX)) {
+            if (matrix[row][column] == MAX) {
+                matrix[row][column] = MIN;
+                stepBack();
+            } else {
+                matrix[row][column]++;
+                consumer.accept(this);
+                row = size - 1;
+                column = size - 1;
+            }
         }
     }
 
@@ -106,11 +67,39 @@ public class MutableSquareMatrix {
         }
     }
 
-    private boolean canKeepCounting() {
-        final var last = row == 0
-                && column == 0
-                && matrix[row][column] == MAX;
-        return !last;
+    private void setAll(int value) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = value;
+            }
+        }
+    }
+
+    public void generateAllRecursively(int row, int column, Consumer<MutableSquareMatrix> consumer) {
+        if (row == size) {
+            consumer.accept(this);
+            return;
+        }
+
+        for (int v = MIN; v <= MAX; v++) {
+            matrix[row][column] = v;
+
+            if (column < size - 1) {
+                generateAllRecursively(row, column + 1, consumer);
+            } else {
+                generateAllRecursively(row + 1, 0, consumer);
+            }
+        }
+    }
+
+    public MutableSquareMatrix copy() {
+        var copy = new MutableSquareMatrix(size);
+
+        for (int i = 0; i < size; i++) {
+            System.arraycopy(matrix[i], 0, copy.matrix[i], 0, size);
+        }
+
+        return copy;
     }
 
     @Override
