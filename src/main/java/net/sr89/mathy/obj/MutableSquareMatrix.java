@@ -53,21 +53,18 @@ public class MutableSquareMatrix {
                 && matrix[row][column] == MAX)) {
             if (matrix[row][column] == MAX) {
                 matrix[row][column] = MIN;
-                stepBack();
+
+                column--;
+                if (column < 0) {
+                    column = size - 1;
+                    row--;
+                }
             } else {
                 matrix[row][column]++;
                 consumer.accept(this);
                 row = size - 1;
                 column = size - 1;
             }
-        }
-    }
-
-    private void stepBack() {
-        column--;
-        if (column < 0) {
-            column = size - 1;
-            row--;
         }
     }
 
