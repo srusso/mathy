@@ -22,18 +22,13 @@ public class MutableSquareMatrix {
     }
 
     public void mult(MutableSquareMatrix other, MutableSquareMatrix result) {
+        result.setAll(0);
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 for (int k = 0; k < size; k++) {
                     int value = matrix[i][k] * other.matrix[k][j];
-
-                    if(result.matrix[i][j] == 0) {
-                        // if the entry is zero, we "start from scratch" by setting it to the value
-                        result.matrix[i][j] = value;
-                    } else {
-                        // otherwise, we add the value
-                        result.matrix[i][j] += value;
-                    }
+                    result.matrix[i][j] += value;
                 }
             }
         }
