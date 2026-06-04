@@ -5,10 +5,6 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 public class MutableSquareMatrix {
-    // min and max values for each element of the matrix
-    private static final int MIN = -5;
-    private static final int MAX = 5;
-
     public final int[][] matrix;
     public final int size;
 
@@ -38,17 +34,17 @@ public class MutableSquareMatrix {
     /**
      * Same logic as {@link net.sr89.mathy.comp.Counting}
      */
-    public void generateAll(Consumer<MutableSquareMatrix> consumer) {
+    public void generateAll(int min, int max, Consumer<MutableSquareMatrix> consumer) {
         row = size - 1;
         column = size - 1;
-        setAll(MIN);
+        setAll(min);
 
         consumer.accept(this);
 
         while (!(row == 0 && column == 0
-                && matrix[row][column] == MAX)) {
-            if (matrix[row][column] == MAX) {
-                matrix[row][column] = MIN;
+                && matrix[row][column] == max)) {
+            if (matrix[row][column] == max) {
+                matrix[row][column] = min;
 
                 column--;
                 if (column < 0) {

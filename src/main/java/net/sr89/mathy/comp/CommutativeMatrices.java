@@ -8,19 +8,19 @@ import java.util.concurrent.atomic.AtomicLong;
  * Inspired by the note at page 175 in Linear Algebra Done Right (4th edition) by Sheldon Axler
  */
 public class CommutativeMatrices {
-    public long countCommutativeMatrices() {
-        final var matrixCount2x2 = 14641;
+    public long countCommutativeMatrices(final int matrixSize, final int minValue, final int maxValue) {
+        final var matrixCount2x2 = Math.powExact((maxValue - minValue + 1), 4);
         final var forPercCalculations = matrixCount2x2 * 2000;
         final var combinations = matrixCount2x2 * matrixCount2x2;
 
         final var ab = new MutableSquareMatrix(2);
         final var ba = new MutableSquareMatrix(2);
 
-        AtomicLong commutativePairs = new AtomicLong();
-        AtomicLong nonCommutativePairs = new AtomicLong();
+        final var commutativePairs = new AtomicLong();
+        final var nonCommutativePairs = new AtomicLong();
 
-        new MutableSquareMatrix(2).generateAll(a -> {
-            new MutableSquareMatrix(2).generateAll(b -> {
+        new MutableSquareMatrix(matrixSize).generateAll(minValue, maxValue, a -> {
+            new MutableSquareMatrix(matrixSize).generateAll(minValue, maxValue, b -> {
                 a.mult(b, ab);
                 b.mult(a, ba);
 

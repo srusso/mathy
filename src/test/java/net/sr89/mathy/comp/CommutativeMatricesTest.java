@@ -7,6 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CommutativeMatricesTest {
     @Test
     void commutativeMatrices2x2() {
-        assertEquals(674609, new CommutativeMatrices().countCommutativeMatrices());
+        assertEquals(674609, new CommutativeMatrices().countCommutativeMatrices(2,-5, 5));
     }
 }
