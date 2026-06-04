@@ -9,12 +9,12 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class CommutativeMatrices {
     public long countCommutativeMatrices(final int matrixSize, final int minValue, final int maxValue) {
-        final var matrixCount2x2 = Math.powExact((maxValue - minValue + 1), 4);
-        final var forPercCalculations = matrixCount2x2 * 2000;
-        final var combinations = matrixCount2x2 * matrixCount2x2;
+        final var matrixCount = Math.powExact((maxValue - minValue + 1), matrixSize * matrixSize);
+        final var forPercCalculations = matrixCount * 2000;
+        final var combinations = matrixCount * matrixCount;
 
-        final var ab = new MutableSquareMatrix(2);
-        final var ba = new MutableSquareMatrix(2);
+        final var ab = new MutableSquareMatrix(matrixSize);
+        final var ba = new MutableSquareMatrix(matrixSize);
 
         final var commutativePairs = new AtomicLong();
         final var nonCommutativePairs = new AtomicLong();
