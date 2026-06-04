@@ -2,19 +2,13 @@ package net.sr89.mathy.comp;
 
 import net.sr89.mathy.obj.MutableSquareMatrix;
 
-import java.time.Duration;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Inspired by the note at page 175 in Linear Algebra Done Right (4th edition) by Sheldon Axler
  */
 public class CommutativeMatrices {
-    public static void main() {
-        withSmartyPantsConsumer();
-    }
-
-    private static void withSmartyPantsConsumer() {
-        var t = System.nanoTime();
+    public long countCommutativeMatrices() {
         final var matrixCount2x2 = 14641;
         final var forPercCalculations = matrixCount2x2 * 2000;
         final var combinations = matrixCount2x2 * matrixCount2x2;
@@ -42,10 +36,7 @@ public class CommutativeMatrices {
             });
         });
 
-        final var totalPairs = commutativePairs.get() + nonCommutativePairs.get();
-        System.out.println("Total time: " + Duration.ofNanos((System.nanoTime() - t)).toMillis() + "ms");
-        System.out.println("Total pairs: " + totalPairs);
-        System.out.println("Commutative pairs: " + commutativePairs + " (" + cutToTwoDecimalDigits((100.0 * commutativePairs.get() / totalPairs)) + "%)");
+        return commutativePairs.get();
     }
 
     private static String cutToTwoDecimalDigits(double v) {
